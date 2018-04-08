@@ -15,12 +15,16 @@ public class RepositoryDetailsAdapter {
   @Autowired
   ObjectMapper mapper;
 
-  public RepositoryDetails convertResponseEntityToJson(ResponseEntity<String> responseEntity)
-      throws IOException {
+  public RepositoryDetails convertResponseEntityToJson(ResponseEntity<String> responseEntity) {
 
     RepositoryDetails repositoryDetails = new RepositoryDetails();
+    JsonNode root = null;
+    try {
+      root = mapper.readTree(responseEntity.getBody());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
-    JsonNode root = mapper.readTree(responseEntity.getBody());
     repositoryDetails.setFullName(root.path("full_name").asText());
     repositoryDetails.setDescription(root.path("description").asText());
     repositoryDetails.setCloneUrl(root.path("clone_url").asText());
@@ -28,5 +32,6 @@ public class RepositoryDetailsAdapter {
     repositoryDetails.setCreatedAt(root.path("created_at").asText());
 
     return repositoryDetails;
+
   }
 }

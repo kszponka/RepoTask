@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class ApplicationTest {
 
   @LocalServerPort
-  private int port;
+   private int port;
 
   @Test
   public void contextLoads() {

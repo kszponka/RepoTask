@@ -57,10 +57,20 @@ public class ApplicationTest {
   }
 
   @Test
-  public void verifyNoExistRepo() {
+  public void verifyNoExistOwnerAndNoExistRepo() {
     given().port(port).
         when().
         get("/repositories/noname!x@x#x$/norepo!x@x#x$")
+        .then()
+        .body("message", equalTo("No Such Repository"))
+        .statusCode(404);
+  }
+
+  @Test
+  public void verifyExitstOwnerAndNoExistRepo() {
+    given().port(port).
+        when().
+        get("/repositories/skrzychuz/norepo!x@x#x$")
         .then()
         .body("message", equalTo("No Such Repository"))
         .statusCode(404);
